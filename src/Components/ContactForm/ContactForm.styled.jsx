@@ -2,29 +2,32 @@ import styled from "styled-components";
 
 export const Form = styled.form`
   display: flex;
-  justify-content: center;
   align-items: end;
-  width: 600px;
-  margin: 0 auto;
+      margin-top: 25px;
 `;
 
 export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
   height: 39px;
   padding: 5px 10px;
   cursor: pointer;
-  background: #a4b9d8;
+  background: rgb(66 153 225 / 60%);
   border-radius: 4px;
   border: none;
-  font-family: cursive;
   font-weight: bold;
-  color: #545252;
+  color: white;
+ transition: transform 250ms linear;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 export const Input = styled.input`
+margin-top: 5px;
+width: 160px;
   padding: 10px;
   border: 2px solid #a6a6a6;
   border-radius: 4px;
@@ -37,4 +40,5 @@ export const Input = styled.input`
 
 export const Label = styled.label`
   width: 200px;
+  font-size: 18px;
 `;

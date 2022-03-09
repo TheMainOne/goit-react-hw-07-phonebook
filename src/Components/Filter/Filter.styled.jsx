@@ -1,19 +1,15 @@
 import styled from "styled-components";
 
 export const Input = styled.input`
-  margin: 0 auto;
   display: block;
-  width: 235px;
-  padding: 10px;
-  border: 2px solid #a6a6a6;
+  width: 215px;
   border-radius: 4px;
+      border-style: none;
+      background: #f0f0f0;
+transition: background-color 250ms linear;
 
   &:hover,
   &:focus {
-    border: 2px solid #89b4d8;
-  }
-
-  &::placeholder {
-    font-family: cursive;
+    background: #d3d0d0;
   }
 `;

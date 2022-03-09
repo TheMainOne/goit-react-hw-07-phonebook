@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
 export const Head = styled.h1`
-  color: cadetblue;
-  text-align: center;
+  color: #29d;
+  margin: 0;
+  font-size: 1.875rem;
 `;
 
 export const SecondHead = styled.h2`
-  color: cadetblue;
-  text-align: center;
+  color: #29d;
+    font-size: 1.875rem;
+    margin-right: 50px;
 `;

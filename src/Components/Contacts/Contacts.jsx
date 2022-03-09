@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Button, ListItem, Notification } from "./Contacts.styled";
 
-const Contacts = ({ contacts, filter, deleteContact, deleting }) => {
+const Contacts = ({ contacts, filter, deleteContact }) => {
 
-  console.log(deleting);
+
   const filteredContacts = () => {
     if (contacts) {
       const contactsWithFilterQuery = contacts.filter(
@@ -20,21 +20,20 @@ const Contacts = ({ contacts, filter, deleteContact, deleting }) => {
 
   return (
     <List>
-      {deleting && <p>Deleting...</p>}
       {!contacts ||
         (contacts.length === 0 && (
           <Notification>No contacts added yet</Notification>
         ))}
-      {contacts &&
-        contactsWithFilterQuery.map((contact) => (
+      {contacts && contactsWithFilterQuery.length > 0 ? contactsWithFilterQuery.map((contact) => (
           <ListItem key={contact.id}>
             <p>
               {contact.name}: {contact.phone}
             </p>
             <Button onClick={() => deleteContact(contact.id)}>delete</Button>
           </ListItem>
-        ))}
+        )) : <Notification>No contact found</Notification>}
     </List>
+    
   );
 };
 
@@ -48,7 +47,6 @@ Contacts.propTypes = {
   ),
   filter: PropTypes.string.isRequired,
   deleteContact: PropTypes.func.isRequired,
-  deleting: PropTypes.bool,
 };
 
 export default Contacts;
