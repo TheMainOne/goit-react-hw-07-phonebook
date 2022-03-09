@@ -2,10 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Button, ListItem, Notification } from "./Contacts.styled";
 
-const Contacts = ({ contacts, filteredContacts, deleteContact }) => {
+const Contacts = ({ contacts, filteredContacts, deleteContact, deleting }) => {
+
   return (
-    <div>
-      {contacts.length === 0 ? (
+    <ul>
+      {!contacts || contacts.length === 0 && <Notification>No contacts added yet</Notification>}
+      {contacts &&
+        contacts.map((contact) => (
+          <ListItem key={contact.id}>
+            <p>
+              {contact.name}: {contact.phone}
+            </p>
+            <Button onClick={() => deleteContact(contact.id)}>delete</Button>
+          </ListItem>
+        ))}
+      {/* {contacts.length === 0 ? (
         <Notification>No contacts added yet</Notification>
       ) : (
         <List>
@@ -24,8 +35,8 @@ const Contacts = ({ contacts, filteredContacts, deleteContact }) => {
             ))
           )}
         </List>
-      )}
-    </div>
+      )} */}
+    </ul>
   );
 };
 
@@ -34,7 +45,7 @@ Contacts.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
     })
   ),
   filteredContacts: PropTypes.arrayOf(

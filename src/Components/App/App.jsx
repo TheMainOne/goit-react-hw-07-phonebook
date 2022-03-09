@@ -7,6 +7,7 @@ import ContactForm from '../ContactForm/ContactForm';
 import Filter from '../Filter/Filter';
 import { Wrapper } from './App.styled';
 import { GlobalStyle } from './App.styled';
+import { useFetchContactsQuery, useDeleteContactMutation, useCreateNewContactMutation } from 'redux/contacts/contactsSlice';
 
 const LS_KEY = 'contacts';
 const contactId = nanoid();
@@ -16,10 +17,14 @@ const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
   const filteredContacts = getFilteredContacts();
+  const { data, isFetching } = useFetchContactsQuery();
+  const [onDeleteContact, { isLoading }] = useDeleteContactMutation();
+
+  console.log(filteredContacts);
 
   useEffect(() => {
     const localStorageItems = JSON.parse(localStorage.getItem(LS_KEY));
-
+    
     if (localStorageItems) {
       setContacts(prevState => [...prevState, ...localStorageItems]);
     }
@@ -95,9 +100,10 @@ const App = () => {
       <SecondHeader>Contacts</SecondHeader>
       <Filter onSearchInput={onSearchInput} value={filter} />
       <Contacts
-        contacts={contacts}
+        contacts={data}
         filteredContacts={filteredContacts}
-        deleteContact={deleteContact}
+        deleteContact={onDeleteContact}
+        deleting ={isLoading}
       />
       <GlobalStyle />
       <Toaster />

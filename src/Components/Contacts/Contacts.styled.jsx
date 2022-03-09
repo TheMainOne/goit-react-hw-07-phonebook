@@ -13,6 +13,7 @@ export const ListItem = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
   width: 350px;
 `;
 
