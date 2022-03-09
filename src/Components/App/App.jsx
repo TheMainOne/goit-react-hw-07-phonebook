@@ -45,6 +45,8 @@ const App = () => {
     const newContact = { name: contactName, phone: contactPhone };
 
     createContact(newContact);
+    const notify = () => toast.success(`${contactName} succesfully added`);
+      notify();
     form.reset();
   };
 

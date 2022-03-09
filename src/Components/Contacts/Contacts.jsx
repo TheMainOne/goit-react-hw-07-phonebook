@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import toast from "react-hot-toast";
 import { List, Button, ListItem, Notification } from "./Contacts.styled";
 
 const Contacts = ({ contacts, filter, deleteContact }) => {
@@ -29,7 +30,11 @@ const Contacts = ({ contacts, filter, deleteContact }) => {
             <p>
               {contact.name}: {contact.phone}
             </p>
-            <Button onClick={() => deleteContact(contact.id)}>delete</Button>
+          <Button onClick={() => {
+            deleteContact(contact.id)
+                const notify = () => toast.success(`${contact.name} succesfully deleted from phonebook`);
+      notify();
+          }}>delete</Button>
           </ListItem>
         )) : <Notification>No contact found</Notification>}
     </List>
