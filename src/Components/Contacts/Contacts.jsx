@@ -2,13 +2,31 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Button, ListItem, Notification } from "./Contacts.styled";
 
-const Contacts = ({ contacts, filteredContacts, deleteContact, deleting }) => {
+const Contacts = ({ contacts, filter, deleteContact, deleting }) => {
+
+  console.log(deleting);
+  const filteredContacts = () => {
+    if (contacts) {
+      const contactsWithFilterQuery = contacts.filter(
+        (contact) =>
+          contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+          contact.phone.includes(filter.toLowerCase())
+      );
+      return contactsWithFilterQuery;
+    }
+  };
+
+  const contactsWithFilterQuery = filteredContacts();
 
   return (
-    <ul>
-      {!contacts || contacts.length === 0 && <Notification>No contacts added yet</Notification>}
+    <List>
+      {deleting && <p>Deleting...</p>}
+      {!contacts ||
+        (contacts.length === 0 && (
+          <Notification>No contacts added yet</Notification>
+        ))}
       {contacts &&
-        contacts.map((contact) => (
+        contactsWithFilterQuery.map((contact) => (
           <ListItem key={contact.id}>
             <p>
               {contact.name}: {contact.phone}
@@ -16,27 +34,7 @@ const Contacts = ({ contacts, filteredContacts, deleteContact, deleting }) => {
             <Button onClick={() => deleteContact(contact.id)}>delete</Button>
           </ListItem>
         ))}
-      {/* {contacts.length === 0 ? (
-        <Notification>No contacts added yet</Notification>
-      ) : (
-        <List>
-          {filteredContacts.length === 0 ? (
-            <p>Contact not found</p>
-          ) : (
-            filteredContacts.map((contact) => (
-              <ListItem key={contact.id}>
-                <p>
-                  {contact.name}: {contact.number}
-                </p>
-                <Button onClick={() => deleteContact(contact.id)}>
-                  delete
-                </Button>
-              </ListItem>
-            ))
-          )}
-        </List>
-      )} */}
-    </ul>
+    </List>
   );
 };
 
@@ -48,14 +46,9 @@ Contacts.propTypes = {
       phone: PropTypes.string.isRequired,
     })
   ),
-  filteredContacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
+  filter: PropTypes.string.isRequired,
   deleteContact: PropTypes.func.isRequired,
+  deleting: PropTypes.bool,
 };
 
 export default Contacts;

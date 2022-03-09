@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
 import toast, { Toaster } from 'react-hot-toast';
 import { Header, SecondHeader } from '../Header/Header';
@@ -7,35 +8,26 @@ import ContactForm from '../ContactForm/ContactForm';
 import Filter from '../Filter/Filter';
 import { Wrapper } from './App.styled';
 import { GlobalStyle } from './App.styled';
+import { changeFilter } from 'redux/filter/filterSlice';
 import { useFetchContactsQuery, useDeleteContactMutation, useCreateNewContactMutation } from 'redux/contacts/contactsSlice';
 
-const LS_KEY = 'contacts';
 const contactId = nanoid();
 const numberId = nanoid();
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
-  const filteredContacts = getFilteredContacts();
-  const { data, isFetching } = useFetchContactsQuery();
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
+  const { data } = useFetchContactsQuery();
   const [onDeleteContact, { isLoading }] = useDeleteContactMutation();
+  const [createContact] = useCreateNewContactMutation();
 
-  console.log(filteredContacts);
-
-  useEffect(() => {
-    const localStorageItems = JSON.parse(localStorage.getItem(LS_KEY));
-    
-    if (localStorageItems) {
-      setContacts(prevState => [...prevState, ...localStorageItems]);
-    }
-  }, []);
 
   const onHandleSubmit = event => {
     event.preventDefault();
     const form = event.target;
     const contactName = event.target.elements.name.value;
     const contactPhone = event.target.elements.number.value;
-    const isNameInContacts = contacts.find(
+    const isNameInContacts = data.find(
       element => element.name === contactName
     );
 
@@ -47,46 +39,16 @@ const App = () => {
       return;
     }
 
-    const newContacts = [
-      ...contacts,
-      { id: nanoid(), name: contactName, number: contactPhone },
-    ];
+    const newContact = { name: contactName, phone: contactPhone };
 
-    setContacts(newContacts);
-    localStorage.setItem(LS_KEY, JSON.stringify(newContacts));
+    createContact(newContact);
     form.reset();
   };
 
   const onSearchInput = event => {
     const inputValue = event.target.value;
 
-    setFilter(inputValue);
-  };
-
-  function getFilteredContacts() {
-    const normalizedFilter = filter.toLowerCase();
-
-    const filteredContacts = contacts.filter(
-      contact =>
-        contact.name.toLowerCase().includes(normalizedFilter) ||
-        contact.number.includes(normalizedFilter)
-    );
-
-    return filteredContacts;
-  }
-
-  const deleteContact = id => {
-    setContacts(prevState => {
-      const newContacts = prevState.filter(contact => contact.id !== id);
-
-      if (newContacts.length === 0) {
-        localStorage.removeItem(LS_KEY);
-        return [];
-      }
-
-      localStorage.setItem(LS_KEY, JSON.stringify(newContacts));
-      return [...newContacts];
-    });
+    dispatch(changeFilter(inputValue));
   };
 
   return (
@@ -101,7 +63,7 @@ const App = () => {
       <Filter onSearchInput={onSearchInput} value={filter} />
       <Contacts
         contacts={data}
-        filteredContacts={filteredContacts}
+        filter={filter}
         deleteContact={onDeleteContact}
         deleting ={isLoading}
       />
