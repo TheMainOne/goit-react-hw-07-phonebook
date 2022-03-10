@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ContactListItem } from "./contactListItem";
 import { List, Notification } from "./Contacts.styled";
+import { SecondHead } from "Components/Header/Header.styled";
 
 const Contacts = ({ contacts, filter }) => {
 
@@ -18,8 +19,9 @@ const Contacts = ({ contacts, filter }) => {
   };
 
   const contactsWithFilterQuery = filteredContacts();
-console.log(contacts);
   return (
+    <div>
+<SecondHead>Contacts</SecondHead>
     <List>
       {!contacts ||
         (contacts.length === 0 && (
@@ -27,6 +29,7 @@ console.log(contacts);
         ))}
       {contacts && contactsWithFilterQuery.length > 0 ? contactsWithFilterQuery.map(contact => <ContactListItem key={contact.id} {...contact}/>) : <Notification>No contact found</Notification>}
     </List>
+    </div>
   );
 };
 

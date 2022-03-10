@@ -6,7 +6,7 @@ import { Header, SecondHeader } from "../Header/Header";
 import Contacts from "../Contacts/Contacts";
 import ContactForm from "../ContactForm/ContactForm";
 import Filter from "../Filter/Filter";
-import { Wrapper, SecondHeaderWrapper } from "./App.styled";
+import { Wrapper, SecondHeaderWrapper, WrapperForContactsForm } from "./App.styled";
 import { GlobalStyle, SiteHeader, Spinner } from "./App.styled";
 import { changeFilter } from "redux/filter/filterSlice";
 import {
@@ -63,20 +63,18 @@ const App = () => {
         <Filter onSearchInput={onSearchInput} value={filter} />
       </SiteHeader>
       <hr />
+      <WrapperForContactsForm>
       <ContactForm
         contactId={contactId}
         numberId={numberId}
         handleSubmit={onHandleSubmit}
       />
-      <SecondHeaderWrapper>
-      <SecondHeader>Contacts</SecondHeader> 
-      {isLoading && <Spinner/>}
-      </SecondHeaderWrapper>
       <Contacts
         contacts={data}
         filter={filter}
         deleteContact={onDeleteContact}
       />
+      </WrapperForContactsForm>
       <GlobalStyle />
       <Toaster />
     </Wrapper>

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Form = styled.form`
   display: flex;
-  align-items: end;
       margin-top: 25px;
+      margin-right: 230px;
 `;
 
 export const Button = styled.button`
@@ -12,6 +12,7 @@ export const Button = styled.button`
   align-items: center;
   height: 39px;
   padding: 5px 10px;
+      margin-top: 25px;
   cursor: pointer;
   background: rgb(66 153 225 / 60%);
   border-radius: 4px;

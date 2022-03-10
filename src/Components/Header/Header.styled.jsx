@@ -9,5 +9,5 @@ export const Head = styled.h1`
 export const SecondHead = styled.h2`
   color: #29d;
     font-size: 1.875rem;
-    margin-right: 50px;
+    margin-top: 50px;
 `;

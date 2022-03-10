@@ -11,6 +11,10 @@ padding-left: 20px;
     padding-right: 20px;
 `;
 
+export const WrapperForContactsForm = styled.div`
+display: flex;
+`;
+
 export const SecondHeaderWrapper = styled.div`
 display: flex;
     align-items: center;
