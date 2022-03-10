@@ -2,12 +2,12 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { nanoid } from "nanoid";
 import toast, { Toaster } from "react-hot-toast";
-import { Header, SecondHeader } from "../Header/Header";
+import { Header } from "../Header/Header";
 import Contacts from "../Contacts/Contacts";
 import ContactForm from "../ContactForm/ContactForm";
 import Filter from "../Filter/Filter";
-import { Wrapper, SecondHeaderWrapper, WrapperForContactsForm } from "./App.styled";
-import { GlobalStyle, SiteHeader, Spinner } from "./App.styled";
+import { Wrapper, WrapperForContactsForm } from "./App.styled";
+import { GlobalStyle, SiteHeader } from "./App.styled";
 import { changeFilter } from "redux/filter/filterSlice";
 import {
   useFetchContactsQuery,
@@ -22,7 +22,7 @@ const App = () => {
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   const { data } = useFetchContactsQuery();
-  const [onDeleteContact, { isLoading }] = useDeleteContactMutation();
+  const [onDeleteContact] = useDeleteContactMutation();
   const [createContact] = useCreateNewContactMutation();
 
   const onHandleSubmit = (event) => {
